@@ -4,8 +4,7 @@ import { User } from "../../entities/User";
 
 export class CreateUserUseCase {
   constructor(private usersRepository: UserRepository) {}
-  async execute(data: CreateUserRequestDTO) {
-
+  async execute(data: CreateUserRequestDTO): Promise<User> {
     const userAlreadyExits = await this.usersRepository.findById(data.user_id);
 
     if (userAlreadyExits) {
@@ -15,5 +14,7 @@ export class CreateUserUseCase {
     const user = new User(data);
 
     await this.usersRepository.save(user);
+
+    return user;
   }
 }

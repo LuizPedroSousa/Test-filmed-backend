@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { CreateUserUseCase } from "./CreateUserUseCase";
+import { CreateUserValidate } from "./CreateUserValidate";
 export class CreateUserController {
-  constructor(private createUserUseCase: CreateUserUseCase) {}
+  constructor(
+    private createUserUseCase: CreateUserUseCase,
+    private createUserValidate: CreateUserValidate
+  ) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
     const { user_id, name, email, password } = req.body;
@@ -14,13 +18,20 @@ export class CreateUserController {
     };
 
     try {
-      await this.createUserUseCase.execute(data);
+      await this.createUserValidate.execute(data);
+      const user = await this.createUserUseCase.execute(data);
 
-      return res.status(201).json({});
+      return res.status(201).json({ user });
     } catch (error: any) {
-      return res
-        .status(400)
-        .json({ message: error?.message || "Unexpected error" });
+      const response: any = {
+        message: error?.message || "Unexpected error",
+      };
+
+      if (error.fields) {
+        response.fields = error.fields;
+      }
+
+      return res.status(400).json(response);
     }
   }
 }
