@@ -3,6 +3,7 @@ import userExists from "./middlewares/userExists";
 import { authenticateUserController } from "./useCases/AuthenticateUser";
 import { createUserController } from "./useCases/CreateUser";
 import { deleteUserController } from "./useCases/DeleteUser";
+import { findUserController } from "./useCases/FindUser";
 import { showUserController } from "./useCases/ShowUser";
 import { updateUserController } from "./useCases/UpdateUser";
 
@@ -26,6 +27,10 @@ router.delete("/users/delete/:user_id", userExists, (req, res) =>
 
 router.get("/users/show", userExists, (req: any, res) =>
   showUserController.handle(req, res)
+);
+
+router.get("/users/find/:user_id", userExists, (req: any, res) =>
+  findUserController.handle(req, res)
 );
 
 export { router };

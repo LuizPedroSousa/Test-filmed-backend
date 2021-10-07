@@ -36,7 +36,7 @@ export class AuthenticateUserUseCase {
 
     const token = await this.tokenRepository.sign(
       { _id: userAlreadyExits._id },
-      "20s"
+      "10m"
     );
 
     return { user: userAlreadyExits, token };
