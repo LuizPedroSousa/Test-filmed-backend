@@ -6,7 +6,7 @@ export class UpdateUserUseCase {
   constructor(private usersRepository: UserRepository) {}
 
   async execute(data: UpdateUserRequestDTO) {
-    await this.usersRepository.updateUser(data.user_id, {
+    await this.usersRepository.updateUserById(data.user_id, {
       ...data,
     });
 

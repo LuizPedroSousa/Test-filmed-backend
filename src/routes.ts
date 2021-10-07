@@ -2,6 +2,7 @@ import { Router } from "express";
 import userExists from "./middlewares/userExists";
 import { authenticateUserController } from "./useCases/AuthenticateUser";
 import { createUserController } from "./useCases/CreateUser";
+import { deleteUserController } from "./useCases/DeleteUser";
 import { updateUserController } from "./useCases/UpdateUser";
 
 const router = Router();
@@ -16,6 +17,10 @@ router.post("/users/auth", (req, res) => {
 
 router.put("/users/update", userExists, (req: any, res) => {
   return updateUserController.handle(req, res);
+});
+
+router.delete("/users/delete/:user_id", userExists, (req, res) => {
+  return deleteUserController.handle(req, res);
 });
 
 export { router };

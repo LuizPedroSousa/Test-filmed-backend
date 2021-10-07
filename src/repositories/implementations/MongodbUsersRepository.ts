@@ -18,11 +18,15 @@ export class MongodbUsersRepository implements UserRepository {
     return user;
   }
 
-  async updateUser(
+  async updateUserById(
     user_id: string,
     data: Omit<User, "_id" | "insertedAt" | "password" | "user_id">
   ): Promise<User | null> {
     const user = await UserModel.findOneAndUpdate({ _id: user_id }, data);
     return user;
+  }
+
+  async deleteUserById(user_id: string): Promise<void> {
+    await UserModel.deleteOne({ _id: user_id });
   }
 }
