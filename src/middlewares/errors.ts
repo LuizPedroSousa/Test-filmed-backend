@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { TokenExpiredError } from "jsonwebtoken";
 import { CustomError } from "../entities/CustomError";
 
 const checkErrors = (
@@ -7,6 +8,10 @@ const checkErrors = (
   res: Response,
   next: NextFunction
 ) => {
+  if (error instanceof TokenExpiredError) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
   if (error instanceof CustomError) {
     const errorResponse: any = {
       message: error?.message,
