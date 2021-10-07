@@ -1,5 +1,4 @@
-import { CustomError } from "../../entities/CustomError";
-import { User } from "../../entities/User";
+import { User } from ".prisma/client";
 import { MailProvider } from "../../providers/MailProvider";
 import { TokenRepository } from "../../repositories/TokenRepository";
 
@@ -10,7 +9,7 @@ export class ForgotPasswordSendMailUseCase {
   ) {}
 
   async execute(data: User) {
-    const token = this.tokenRepository.sign({ _id: data._id }, "14m");
+    const token = this.tokenRepository.sign({ _id: data.id }, "14m");
 
     const connectionMatch = await this.mailProvider.verifyConnection();
 

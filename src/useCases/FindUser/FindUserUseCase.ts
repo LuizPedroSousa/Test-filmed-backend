@@ -1,5 +1,5 @@
+import { User } from ".prisma/client";
 import { CustomError } from "../../entities/CustomError";
-import { User } from "../../entities/User";
 import { UserRepository } from "../../repositories/UserRepository";
 import { FindUserRequestParamsDTO } from "./FindUserDTO";
 

@@ -1,5 +1,4 @@
 import { SchemaOf, object, string } from "yup";
-import { CustomError } from "../../entities/CustomError";
 import { FindUserRequestParamsDTO } from "./FindUserDTO";
 
 export class FindUserValidate {

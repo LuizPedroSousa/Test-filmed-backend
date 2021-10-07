@@ -1,4 +1,4 @@
-import { User } from "../../entities/User";
+import { User } from ".prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import { FindUsersRequestQueryParamsDTO } from "./FindUsersDTO";
 

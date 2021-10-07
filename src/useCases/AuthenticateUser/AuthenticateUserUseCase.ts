@@ -1,9 +1,7 @@
 import { CustomError } from "../../entities/CustomError";
-import { User } from "../../entities/User";
+import { User } from ".prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import { AuthenticateUserRequestDTO } from "./AuthenticateUserDTO";
-import bcrypt from "bcrypt";
-import { sign } from "jsonwebtoken";
 import { TokenRepository } from "../../repositories/TokenRepository";
 import { HashRepository } from "../../repositories/HashRepository";
 
@@ -37,7 +35,7 @@ export class AuthenticateUserUseCase {
     }
 
     const token = this.tokenRepository.sign(
-      { _id: userAlreadyExits._id },
+      { _id: userAlreadyExits.id },
       "10m"
     );
 

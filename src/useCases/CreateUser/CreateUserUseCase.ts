@@ -1,12 +1,12 @@
 import { UserRepository } from "../../repositories/UserRepository";
 import { CreateUserRequestDTO } from "./CreateUserDTO";
-import { User } from "../../entities/User";
-import { CustomError } from "../../entities/CustomError";
+import { UserEntity } from "../../entities/UserEntity";
+import { User } from ".prisma/client";
 
 export class CreateUserUseCase {
   constructor(private usersRepository: UserRepository) {}
   async execute(data: CreateUserRequestDTO): Promise<User> {
-    const user = new User(data);
+    const user = new UserEntity(data);
 
     await this.usersRepository.save(user);
 

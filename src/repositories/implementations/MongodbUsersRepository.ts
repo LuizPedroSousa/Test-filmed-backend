@@ -1,48 +1,55 @@
-import { User } from "../../entities/User";
-import { assignDefined } from "../../utils/assignDefined";
+import { User, Prisma } from ".prisma/client";
+import { UserEntity } from "../../entities/UserEntity";
+import { client } from "../../prisma/client";
 import { convertObjectStringToRegex } from "../../utils/convertObjectStringToRegexQuery";
+
 import {
   FindManyDTO,
   UpdateUserByIdDTO,
   UserRepository,
 } from "../UserRepository";
-import { UserModel } from "./MongooseModels/UserModel";
 
 class MongodbUsersRepository implements UserRepository {
-  async save(user: User): Promise<void> {
-    await new UserModel(user).save();
+  async save(user: UserEntity): Promise<void> {
+    const { user_id, ...rest } = user;
+
+    await client.user.create({ data: { ...rest } });
   }
 
   async findById(user_id: string): Promise<User | null> {
-    const user = await UserModel.findOne({ _id: user_id });
+    const user = await client.user.findUnique({ where: { id: user_id } });
 
     return user;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = await UserModel.findOne({ email });
+    const user = await client.user.findUnique({ where: { email } });
     return user;
   }
 
   async findByIdOrEmail(user_id: string, email: string): Promise<User | null> {
-    const user = await UserModel.findOne({
-      $or: [{ _id: user_id }, { email }],
+    const user = await client.user.findFirst({
+      where: {
+        OR: [{ id: user_id }, { email }],
+      },
     });
     return user;
   }
 
   async findMany(data: FindManyDTO): Promise<User[] | []> {
-    const query = convertObjectStringToRegex("i", data);
+    const query = convertObjectStringToRegex(data);
     delete query.orderBy;
 
-    let sort = -1;
+    let orderBy: Prisma.SortOrder = "desc";
 
-    // order by ascending
-    if (data.orderBy && /asc/i.test(data.orderBy)) {
-      sort = 1;
+    if (data.orderBy && /asc/i.test(data?.orderBy)) {
+      orderBy = "asc";
     }
 
-    const users = await UserModel.find(query).sort({ insertedAt: sort });
+    const users = await client.user.findMany({
+      where: { ...query },
+      orderBy: [{ insertedAt: orderBy }],
+    });
 
     return users;
   }
@@ -51,12 +58,12 @@ class MongodbUsersRepository implements UserRepository {
     user_id: string,
     data: UpdateUserByIdDTO
   ): Promise<User | null> {
-    const user = await UserModel.findOneAndUpdate({ _id: user_id }, data);
+    const user = await client.user.update({ where: { id: user_id }, data });
     return user;
   }
 
   async deleteUserById(user_id: string): Promise<void> {
-    await UserModel.deleteOne({ _id: user_id });
+    await client.user.delete({ where: { id: user_id } });
   }
 }
 

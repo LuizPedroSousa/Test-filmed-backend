@@ -1,6 +1,6 @@
+import { User } from ".prisma/client";
 import { SchemaOf, object, string } from "yup";
 import { CustomError } from "../../entities/CustomError";
-import { User } from "../../entities/User";
 import { UserRepository } from "../../repositories/UserRepository";
 import { ForgotPasswordSendMailRequestDTO } from "./ForgotPasswordSendMailDTO";
 

@@ -1,4 +1,4 @@
-import { User } from "../../entities/User";
+import { User } from ".prisma/client";
 
 export class ShowUserUseCase {
   execute(user: User) {

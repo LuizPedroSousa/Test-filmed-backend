@@ -1,12 +1,12 @@
-import { User } from "../../entities/User";
+import { User } from ".prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import { UpdateUserRequestDTO } from "./UpdaterUserDTO";
 
 export class UpdateUserUseCase {
   constructor(private usersRepository: UserRepository) {}
 
-  async execute(data: UpdateUserRequestDTO) {
-    await this.usersRepository.updateUserById(data.user._id, {
+  async execute(data: UpdateUserRequestDTO, user: User) {
+    await this.usersRepository.updateUserById(user.id, {
       ...data,
     });
 

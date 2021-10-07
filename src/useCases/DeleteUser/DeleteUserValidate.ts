@@ -1,5 +1,4 @@
 import { SchemaOf, object, string } from "yup";
-import { CustomError } from "../../entities/CustomError";
 import { DeleteUserRequestParamsDTO } from "./DeleteUserDTO";
 
 export class DeleteUserValidate {

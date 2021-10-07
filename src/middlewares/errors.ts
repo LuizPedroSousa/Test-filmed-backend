@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { TokenExpiredError } from "jsonwebtoken";
+import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import { ValidationError } from "yup";
 import { CustomError } from "../entities/CustomError";
 
@@ -25,8 +25,11 @@ const checkErrors = (
     });
   }
 
-  // check if token as expired
-  if (error instanceof TokenExpiredError) {
+  // check if as a token error
+  if (
+    error instanceof TokenExpiredError ||
+    error instanceof JsonWebTokenError
+  ) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 

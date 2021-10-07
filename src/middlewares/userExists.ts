@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../entities/CustomError";
 import mongodbUsersRepository from "../repositories/implementations/MongodbUsersRepository";
 import { UserRepository } from "../repositories/UserRepository";
-import { User } from "../entities/User";
+import { User } from ".prisma/client";
 import { TokenRepository } from "../repositories/TokenRepository";
 import jwtTokenRepository from "../repositories/implementations/JwtTokenRepository";
 

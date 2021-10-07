@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
-export class User {
-  public readonly _id: string;
+export class UserEntity {
+  public readonly id: string;
 
   public user_id: string;
   public name: string;
@@ -10,11 +10,12 @@ export class User {
   public insertedAt: Date;
 
   // remove _id and insertedAt because both not
-  constructor(props: Omit<User, "_id" | "insertedAt">, _id?: string) {
+  constructor(props: Omit<UserEntity, "id" | "insertedAt">, id?: string) {
     Object.assign(this, props);
 
     this.insertedAt = new Date();
-    this._id = this.user_id;
+    
+    this.id = this.user_id;
     this.password = bcrypt.hashSync(this.password, 8);
   }
 }

@@ -16,13 +16,15 @@ export class ForgotPasswordResetController {
     } = req;
 
     const data: ForgotPasswordResetRequestDTO = {
-      user,
       password,
     };
 
-    await this.forgotPasswordResetUseCase.execute(data);
+    await this.forgotPasswordResetValidate.execute(data);
 
-    const userUpdated = await this.forgotPasswordResetValidate.execute(data);
+    const userUpdated = await this.forgotPasswordResetUseCase.execute(
+      data,
+      user
+    );
 
     return res
       .status(200)
