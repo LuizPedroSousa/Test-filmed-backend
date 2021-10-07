@@ -9,7 +9,7 @@ export class FindUserController {
     private findUserValidate: FindUserValidate
   ) {}
 
-  async handle(req: Request, res: Response) {
+  async handle(req: Request, res: Response): Promise<Response> {
     const { user_id } = req.params;
 
     const data: FindUserRequestParamsDTO = { user_id };

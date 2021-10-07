@@ -18,6 +18,7 @@ export class CreateUserController {
     };
 
     await this.createUserValidate.execute(data);
+
     const user = await this.createUserUseCase.execute(data);
 
     return res.status(201).json({ user });

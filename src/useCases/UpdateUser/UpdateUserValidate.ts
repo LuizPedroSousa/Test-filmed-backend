@@ -10,15 +10,6 @@ export class UpdateUserValidate {
       email: string().email().required().defined(),
     }).defined();
 
-    try {
-      await schema.validate(data, { abortEarly: false });
-    } catch (error: any) {
-      if (error.errors) {
-        throw new CustomError({
-          message: "Invalid data",
-          fields: error.errors,
-        });
-      }
-    }
+    await schema.validate(data, { abortEarly: false });
   }
 }
