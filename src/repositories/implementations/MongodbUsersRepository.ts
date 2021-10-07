@@ -13,4 +13,8 @@ export class MongodbUsersRepository implements UserRepository {
     return user;
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await UserModel.findOne({ email });
+    return user;
+  }
 }

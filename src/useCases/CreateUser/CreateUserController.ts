@@ -17,21 +17,9 @@ export class CreateUserController {
       password,
     };
 
-    try {
-      await this.createUserValidate.execute(data);
-      const user = await this.createUserUseCase.execute(data);
+    await this.createUserValidate.execute(data);
+    const user = await this.createUserUseCase.execute(data);
 
-      return res.status(201).json({ user });
-    } catch (error: any) {
-      const response: any = {
-        message: error?.message || "Unexpected error",
-      };
-
-      if (error.fields) {
-        response.fields = error.fields;
-      }
-
-      return res.status(400).json(response);
-    }
+    return res.status(201).json({ user });
   }
 }
