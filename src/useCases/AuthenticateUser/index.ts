@@ -1,18 +1,16 @@
-import { JwtTokenRepository } from "../../repositories/implementations/JwtTokenRepository";
-import { MongodbUsersRepository } from "../../repositories/implementations/MongodbUsersRepository";
+import bcryptHashRepository from "../../repositories/implementations/BcryptHashRepository";
+import jwtTokenRepository from "../../repositories/implementations/JwtTokenRepository";
+import mongodbUsersRepository from "../../repositories/implementations/MongodbUsersRepository";
 import { AuthenticateUserController } from "./AuthenticateUserController";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 import { AuthenticateUserValidate } from "./AuthenticateUserValidate";
 
-const mongodbUsersRepository = new MongodbUsersRepository();
-
 const authenticateUserValidate = new AuthenticateUserValidate();
-
-const jwtTokenRepository = new JwtTokenRepository();
 
 const authenticateUserUseCase = new AuthenticateUserUseCase(
   mongodbUsersRepository,
-  jwtTokenRepository
+  jwtTokenRepository,
+  bcryptHashRepository
 );
 
 const authenticateUserController = new AuthenticateUserController(

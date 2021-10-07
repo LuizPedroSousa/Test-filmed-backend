@@ -1,12 +1,10 @@
-import { MongodbUsersRepository } from "../../repositories/implementations/MongodbUsersRepository";
+import mongodbUsersRepository from "../../repositories/implementations/MongodbUsersRepository";
 import { UpdateUserController } from "./UpdateUserController";
 import { UpdateUserUseCase } from "./UpdateUserUseCase";
 import { UpdateUserValidate } from "./UpdateUserValidate";
 
-const mongodbUsersRepository = new MongodbUsersRepository();
-
 const updateUserUseCase = new UpdateUserUseCase(mongodbUsersRepository);
-const updateUserValidate = new UpdateUserValidate();
+const updateUserValidate = new UpdateUserValidate(mongodbUsersRepository);
 const updateUserController = new UpdateUserController(
   updateUserUseCase,
   updateUserValidate

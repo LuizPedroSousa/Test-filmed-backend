@@ -1,7 +1,7 @@
 import { TokenRepository } from "../TokenRepository";
 import jwt from "jsonwebtoken";
 
-export class JwtTokenRepository implements TokenRepository {
+class JwtTokenRepository implements TokenRepository {
   sign(payload: any, expiresIn: string): string {
     const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET as string, {
       expiresIn,
@@ -9,4 +9,17 @@ export class JwtTokenRepository implements TokenRepository {
 
     return token;
   }
+
+  verify(token: string): any {
+    const payload = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET ?? ""
+    ) as {
+      _id: string;
+    };
+
+    return payload;
+  }
 }
+
+export default new JwtTokenRepository();

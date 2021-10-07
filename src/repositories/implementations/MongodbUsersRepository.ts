@@ -8,7 +8,7 @@ import {
 } from "../UserRepository";
 import { UserModel } from "./MongooseModels/UserModel";
 
-export class MongodbUsersRepository implements UserRepository {
+class MongodbUsersRepository implements UserRepository {
   async save(user: User): Promise<void> {
     await new UserModel(user).save();
   }
@@ -59,3 +59,5 @@ export class MongodbUsersRepository implements UserRepository {
     await UserModel.deleteOne({ _id: user_id });
   }
 }
+
+export default new MongodbUsersRepository();

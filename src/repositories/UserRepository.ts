@@ -1,8 +1,7 @@
 import { User } from "../entities/User";
 
-export type UpdateUserByIdDTO = Omit<
-  User,
-  "_id" | "insertedAt" | "password" | "user_id"
+export type UpdateUserByIdDTO = Partial<
+  Omit<User, "_id" | "insertedAt" | "user_id">
 >;
 
 export interface FindManyDTO {

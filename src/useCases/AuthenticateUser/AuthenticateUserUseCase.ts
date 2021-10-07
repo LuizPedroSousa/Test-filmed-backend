@@ -5,6 +5,7 @@ import { AuthenticateUserRequestDTO } from "./AuthenticateUserDTO";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { TokenRepository } from "../../repositories/TokenRepository";
+import { HashRepository } from "../../repositories/HashRepository";
 
 interface AuthenticateUserUserCaseResolve {
   user: User;
@@ -14,7 +15,8 @@ interface AuthenticateUserUserCaseResolve {
 export class AuthenticateUserUseCase {
   constructor(
     private userRepository: UserRepository,
-    private tokenRepository: TokenRepository
+    private tokenRepository: TokenRepository,
+    private hashRepository: HashRepository
   ) {}
   async execute(
     data: AuthenticateUserRequestDTO
@@ -25,7 +27,7 @@ export class AuthenticateUserUseCase {
       throw new CustomError({ message: "User or password are invalid" });
     }
 
-    const passwordMatch = await bcrypt.compare(
+    const passwordMatch = await this.hashRepository.compare(
       data.password,
       userAlreadyExits.password
     );

@@ -1,16 +1,20 @@
 import { Request, Response, NextFunction } from "express";
 import { CustomError } from "../entities/CustomError";
-import { MongodbUsersRepository } from "../repositories/implementations/MongodbUsersRepository";
+import mongodbUsersRepository from "../repositories/implementations/MongodbUsersRepository";
 import { UserRepository } from "../repositories/UserRepository";
-import jwt from "jsonwebtoken";
 import { User } from "../entities/User";
+import { TokenRepository } from "../repositories/TokenRepository";
+import jwtTokenRepository from "../repositories/implementations/JwtTokenRepository";
 
 interface UserRequest extends Request {
   user: User;
 }
 
 class UserExists {
-  constructor(private usersRepository: UserRepository) {}
+  constructor(
+    private usersRepository: UserRepository,
+    private tokenRepository: TokenRepository
+  ) {}
   async handle(
     req: UserRequest,
     res: Response,
@@ -33,10 +37,7 @@ class UserExists {
       throw new CustomError({ message: "Unauthorized", status: 401 });
     }
 
-    const { _id } = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ?? "") as {
-      _id: string;
-    };
-
+    const { _id } = this.tokenRepository.verify(token);
     if (!_id) {
       throw new CustomError({ message: "Unauthorized", status: 401 });
     }
@@ -53,9 +54,7 @@ class UserExists {
   }
 }
 
-const mongodbUsersRepository = new MongodbUsersRepository();
-
-const userExists = new UserExists(mongodbUsersRepository);
+const userExists = new UserExists(mongodbUsersRepository, jwtTokenRepository);
 
 export default (req: any, res: Response, next: NextFunction) =>
   userExists.handle(req, res, next);

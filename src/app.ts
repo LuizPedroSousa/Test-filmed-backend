@@ -4,7 +4,7 @@ import { config, DotenvConfigOutput } from "dotenv";
 import { createServer, Server as HTTPServer } from "http";
 import cors from "cors";
 import { router } from "./routes";
-import { createMongodbConnection } from "./database/connection";
+import createMongodbConnection from "./database/connection";
 import { checkErrors } from "./middlewares/errors";
 
 class App {
@@ -22,7 +22,7 @@ class App {
     this.express = express();
     this.server = createServer(this.express);
     this.dotenv = config();
-    this.mongodbConnection = createMongodbConnection();
+    this.mongodbConnection = createMongodbConnection.connect();
   }
 
   middlewares() {

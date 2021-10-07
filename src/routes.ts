@@ -5,6 +5,7 @@ import { createUserController } from "./useCases/CreateUser";
 import { deleteUserController } from "./useCases/DeleteUser";
 import { findUserController } from "./useCases/FindUser";
 import { findUsersController } from "./useCases/FindUsers";
+import { forgotPasswordResetController } from "./useCases/ForgotPasswordReset";
 import { forgotPasswordSendMailController } from "./useCases/ForgotPasswordSendMail";
 import { showUserController } from "./useCases/ShowUser";
 import { updateUserController } from "./useCases/UpdateUser";
@@ -41,6 +42,10 @@ router.get("/users/:user_id", userExists, (req: any, res) =>
 
 router.post("/users/forgot/password/validate", (req: any, res) =>
   forgotPasswordSendMailController.handle(req, res)
+);
+
+router.patch("/users/forgot/password/reset", userExists, (req: any, res) =>
+  forgotPasswordResetController.handle(req, res)
 );
 
 export { router };

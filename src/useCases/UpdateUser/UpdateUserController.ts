@@ -22,9 +22,9 @@ export class UpdateUserController {
     }
 
     const data: UpdateUserRequestDTO = {
-      user_id: user._id,
-      email: user.email,
-      name: user.password,
+      user,
+      email: email || user.email,
+      name: name || user.password,
     };
 
     await this.updateUserValidate.execute(data);
