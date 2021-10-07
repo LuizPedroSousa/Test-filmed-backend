@@ -34,7 +34,7 @@ export class AuthenticateUserUseCase {
       throw new CustomError({ message: "User or password are invalid" });
     }
 
-    const token = await this.tokenRepository.sign(
+    const token = this.tokenRepository.sign(
       { _id: userAlreadyExits._id },
       "10m"
     );

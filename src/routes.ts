@@ -5,6 +5,7 @@ import { createUserController } from "./useCases/CreateUser";
 import { deleteUserController } from "./useCases/DeleteUser";
 import { findUserController } from "./useCases/FindUser";
 import { findUsersController } from "./useCases/FindUsers";
+import { forgotPasswordSendMailController } from "./useCases/ForgotPasswordSendMail";
 import { showUserController } from "./useCases/ShowUser";
 import { updateUserController } from "./useCases/UpdateUser";
 
@@ -36,6 +37,10 @@ router.get("/users/find", userExists, (req, res) =>
 
 router.get("/users/:user_id", userExists, (req: any, res) =>
   findUserController.handle(req, res)
+);
+
+router.post("/users/forgot/password/validate", (req: any, res) =>
+  forgotPasswordSendMailController.handle(req, res)
 );
 
 export { router };
