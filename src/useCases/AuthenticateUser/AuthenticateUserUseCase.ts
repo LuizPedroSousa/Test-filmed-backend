@@ -1,9 +1,10 @@
 import { CustomError } from "../../entities/CustomError";
 import { User } from "../../entities/User";
 import { UserRepository } from "../../repositories/UserRepository";
-import { AuthenticateUserDTO } from "./AuthenticateUserDTO";
+import { AuthenticateUserRequestDTO } from "./AuthenticateUserDTO";
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { TokenRepository } from "../../repositories/TokenRepository";
 
 interface AuthenticateUserUserCaseResolve {
   user: User;
@@ -11,14 +12,17 @@ interface AuthenticateUserUserCaseResolve {
 }
 
 export class AuthenticateUserUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private tokenRepository: TokenRepository
+  ) {}
   async execute(
-    data: AuthenticateUserDTO
+    data: AuthenticateUserRequestDTO
   ): Promise<AuthenticateUserUserCaseResolve> {
     const userAlreadyExits = await this.userRepository.findByEmail(data.email);
 
     if (!userAlreadyExits) {
-      throw new CustomError("User or password are invalid");
+      throw new CustomError({ message: "User or password are invalid" });
     }
 
     const passwordMatch = await bcrypt.compare(
@@ -27,13 +31,13 @@ export class AuthenticateUserUseCase {
     );
 
     if (!passwordMatch) {
-      throw new CustomError("User or password are invalid");
+      throw new CustomError({ message: "User or password are invalid" });
     }
 
-    const token = sign({}, process.env.SECRET_KEY as string, {
-      subject: userAlreadyExits._id,
-      expiresIn: "20s",
-    });
+    const token = await this.tokenRepository.sign(
+      { _id: userAlreadyExits._id },
+      "20s"
+    );
 
     return { user: userAlreadyExits, token };
   }

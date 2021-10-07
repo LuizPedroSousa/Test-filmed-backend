@@ -1,14 +1,13 @@
-import { CreateUserRequestDTO } from "./CreateUserDTO";
-import { string, SchemaOf, object } from "yup";
+import { SchemaOf, object, string } from "yup";
 import { CustomError } from "../../entities/CustomError";
+import { UpdateUserRequestDTO } from "./UpdaterUserDTO";
 
-export class CreateUserValidate {
-  async execute(data: CreateUserRequestDTO): Promise<void> {
-    const schema: SchemaOf<CreateUserRequestDTO> = object({
+export class UpdateUserValidate {
+  async execute(data: UpdateUserRequestDTO) {
+    const schema: SchemaOf<UpdateUserRequestDTO> = object({
       user_id: string().required().defined(),
       name: string().required().defined(),
       email: string().email().required().defined(),
-      password: string().required().defined(),
     }).defined();
 
     try {

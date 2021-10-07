@@ -1,3 +1,4 @@
+import { JwtTokenRepository } from "../../repositories/implementations/JwtTokenRepository";
 import { MongodbUsersRepository } from "../../repositories/implementations/MongodbUsersRepository";
 import { AuthenticateUserController } from "./AuthenticateUserController";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
@@ -7,8 +8,11 @@ const mongodbUsersRepository = new MongodbUsersRepository();
 
 const authenticateUserValidate = new AuthenticateUserValidate();
 
+const jwtTokenRepository = new JwtTokenRepository();
+
 const authenticateUserUseCase = new AuthenticateUserUseCase(
-  mongodbUsersRepository
+  mongodbUsersRepository,
+  jwtTokenRepository
 );
 
 const authenticateUserController = new AuthenticateUserController(

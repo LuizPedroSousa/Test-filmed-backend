@@ -7,15 +7,22 @@ const checkErrors = (
   res: Response,
   next: NextFunction
 ) => {
-  const errorResponse: any = {
-    message: error?.message || "Unexpected error",
-  };
+  if (error instanceof CustomError) {
+    const errorResponse: any = {
+      message: error?.message,
+    };
 
-  if (error.fields) {
-    errorResponse.fields = error.fields;
+    if (error.fields) {
+      errorResponse.fields = error.fields;
+    }
+
+    const statusCode = error.status || 400;
+
+    return res.status(statusCode).json(errorResponse);
   }
 
-  return res.status(400).json(errorResponse);
+  console.log(error);
+  return res.status(500).json({ message: "Internal server error" });
 };
 
 export { checkErrors };

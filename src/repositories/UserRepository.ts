@@ -4,4 +4,8 @@ export interface UserRepository {
   findById(user_id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   save(user: User): Promise<void>;
+  updateUser(
+    user_id: string,
+    data: Omit<User, "_id" | "insertedAt" | "password" | "user_id">
+  ): Promise<User | null>;
 }

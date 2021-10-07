@@ -17,4 +17,12 @@ export class MongodbUsersRepository implements UserRepository {
     const user = await UserModel.findOne({ email });
     return user;
   }
+
+  async updateUser(
+    user_id: string,
+    data: Omit<User, "_id" | "insertedAt" | "password" | "user_id">
+  ): Promise<User | null> {
+    const user = await UserModel.findOneAndUpdate({ _id: user_id }, data);
+    return user;
+  }
 }
