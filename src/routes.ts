@@ -7,10 +7,15 @@ import { findUserController } from "./useCases/FindUser";
 import { findUsersController } from "./useCases/FindUsers";
 import { forgotPasswordResetController } from "./useCases/ForgotPasswordReset";
 import { forgotPasswordSendMailController } from "./useCases/ForgotPasswordSendMail";
+import { pingController } from "./useCases/Ping";
 import { showUserController } from "./useCases/ShowUser";
 import { updateUserController } from "./useCases/UpdateUser";
 
 const router = Router();
+
+router.get("/ping", (req, res) => {
+  pingController.handle(req, res);
+});
 
 router.post("/users/create", (req, res) =>
   createUserController.handle(req, res)
