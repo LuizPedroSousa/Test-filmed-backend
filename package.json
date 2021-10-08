@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.9.1",
+    "npm": "7.21.1"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=dev tsnd --clear --exit-child --ignore-watch node_modules --respawn --transpile-only src/server.ts"
+    "dev": "NODE_ENV=dev tsnd --clear --exit-child --ignore-watch node_modules --respawn --transpile-only src/server.ts",
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
   },
   "keywords": [],
   "author": "",
