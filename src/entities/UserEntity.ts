@@ -1,5 +1,5 @@
-import { User } from ".prisma/client";
 import bcrypt from "bcrypt";
+
 export class UserEntity {
   public readonly id: string;
 
@@ -9,7 +9,6 @@ export class UserEntity {
   public password: string;
   public insertedAt: Date;
 
-  // remove _id and insertedAt because both not
   constructor(props: Omit<UserEntity, "id" | "insertedAt">, id?: string) {
     Object.assign(this, props);
 

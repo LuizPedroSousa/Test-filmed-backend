@@ -1,6 +1,6 @@
 import { User, Prisma } from ".prisma/client";
 import { UserEntity } from "../../entities/UserEntity";
-import { client } from "../../prisma/client";
+import { client } from "../../database/client";
 import { convertObjectStringToRegex } from "../../utils/convertObjectStringToRegexQuery";
 
 import {

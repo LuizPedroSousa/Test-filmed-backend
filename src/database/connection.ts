@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import { client } from "../prisma/client";
+import { client } from "./client";
 
 class CreateMongodbConnection {
   async connect() {

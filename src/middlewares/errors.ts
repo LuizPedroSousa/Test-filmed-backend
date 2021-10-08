@@ -33,7 +33,7 @@ const checkErrors = (
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  // catch instances of new CustomError("")
+  // catch instances of CustomError()
   if (error instanceof CustomError) {
     const errorResponse: any = {
       message: error?.message,
