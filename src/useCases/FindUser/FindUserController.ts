@@ -2,11 +2,13 @@ import { Request, Response } from "express";
 import { FindUserRequestParamsDTO } from "./FindUserDTO";
 import { FindUserUseCase } from "./FindUserUseCase";
 import { FindUserValidate } from "./FindUserValidate";
+import { FindUserView } from "./FindUserView";
 
 export class FindUserController {
   constructor(
     private findUserUseCase: FindUserUseCase,
-    private findUserValidate: FindUserValidate
+    private findUserValidate: FindUserValidate,
+    private findUserView: FindUserView
   ) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
@@ -17,6 +19,8 @@ export class FindUserController {
     this.findUserValidate.execute(data);
     const user = await this.findUserUseCase.execute(data);
 
-    return res.status(200).json({ user });
+    const response = this.findUserView.render(user);
+
+    return res.status(200).json(response);
   }
 }

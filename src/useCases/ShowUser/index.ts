@@ -1,7 +1,7 @@
 import { ShowUserController } from "./ShowUserController";
-import { ShowUserUseCase } from "./ShowUserUseCase";
+import { ShowUserView } from "./ShowUserView";
 
-const showUserUseCase = new ShowUserUseCase();
-const showUserController = new ShowUserController(showUserUseCase);
+const showUserView = new ShowUserView();
+const showUserController = new ShowUserController(showUserView);
 
-export { showUserUseCase, showUserController };
+export { showUserController };

@@ -1,12 +1,14 @@
 import { Response } from "express";
 import { CustomRequest } from "../../entities/CustomRequest";
-import { ShowUserUseCase } from "./ShowUserUseCase";
+import { ShowUserView } from "./ShowUserView";
 
 export class ShowUserController {
-  constructor(private showUserUseCase: ShowUserUseCase) {}
+  constructor(private showUserView: ShowUserView) {}
   async handle(req: CustomRequest, res: Response): Promise<Response> {
-    const user = this.showUserUseCase.execute(req.user);
+    const { user } = req;
 
-    return res.status(200).json({ user });
+    const response = this.showUserView.render(user);
+
+    return res.status(200).json(response);
   }
 }

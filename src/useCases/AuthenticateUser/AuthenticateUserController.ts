@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 import { AuthenticateUserValidate } from "./AuthenticateUserValidate";
+import { AuthenticateUserView } from "./AuthenticateUserView";
 
 export class AuthenticateUserController {
   constructor(
     private authenticateUserUseCase: AuthenticateUserUseCase,
-    private authenticateUserValidate: AuthenticateUserValidate
+    private authenticateUserValidate: AuthenticateUserValidate,
+    private authenticateUserView: AuthenticateUserView
   ) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
@@ -19,6 +21,8 @@ export class AuthenticateUserController {
     await this.authenticateUserValidate.execute(data);
     const { user, token } = await this.authenticateUserUseCase.execute(data);
 
-    return res.status(200).json({ user, token });
+    const response = this.authenticateUserView.render(user, token);
+
+    return res.status(200).json(response);
   }
 }

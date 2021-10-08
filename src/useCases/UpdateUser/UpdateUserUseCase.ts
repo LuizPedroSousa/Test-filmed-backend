@@ -1,15 +1,20 @@
 import { User } from ".prisma/client";
+import { CustomError } from "../../entities/CustomError";
 import { UserRepository } from "../../repositories/UserRepository";
 import { UpdateUserRequestDTO } from "./UpdaterUserDTO";
 
 export class UpdateUserUseCase {
   constructor(private usersRepository: UserRepository) {}
 
-  async execute(data: UpdateUserRequestDTO, user: User) {
-    await this.usersRepository.updateUserById(user.id, {
+  async execute(data: UpdateUserRequestDTO, user: User): Promise<User> {
+    const userUpdated = await this.usersRepository.updateUserById(user.id, {
       ...data,
     });
 
-    return data;
+    if (!userUpdated) {
+      throw new CustomError({ message: "User not found" });
+    }
+
+    return userUpdated;
   }
 }

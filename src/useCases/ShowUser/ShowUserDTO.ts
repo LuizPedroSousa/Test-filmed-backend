@@ -1,10 +1,6 @@
 import { UserResponse } from "../../entities/UserEntityResponse";
 
-export interface FindUserRequestParamsDTO {
-  user_id: string;
-}
-
-export interface FindUserResponseDTO {
+export interface ShowUserResponseDTO {
   message: string;
   user: UserResponse;
 }

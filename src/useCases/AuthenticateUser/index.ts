@@ -4,6 +4,7 @@ import mongodbUsersRepository from "../../repositories/implementations/MongodbUs
 import { AuthenticateUserController } from "./AuthenticateUserController";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 import { AuthenticateUserValidate } from "./AuthenticateUserValidate";
+import { AuthenticateUserView } from "./AuthenticateUserView";
 
 const authenticateUserValidate = new AuthenticateUserValidate();
 
@@ -13,9 +14,12 @@ const authenticateUserUseCase = new AuthenticateUserUseCase(
   bcryptHashRepository
 );
 
+const authenticateUserView = new AuthenticateUserView();
+
 const authenticateUserController = new AuthenticateUserController(
   authenticateUserUseCase,
-  authenticateUserValidate
+  authenticateUserValidate,
+  authenticateUserView
 );
 
 export { authenticateUserController };

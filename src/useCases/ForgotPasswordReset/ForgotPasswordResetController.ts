@@ -3,10 +3,12 @@ import { CustomRequest } from "../../entities/CustomRequest";
 import { ForgotPasswordResetRequestDTO } from "./ForgotPasswordResetDTO";
 import { ForgotPasswordResetUseCase } from "./ForgotPasswordResetUseCase";
 import { ForgotPasswordResetValidate } from "./ForgotPasswordResetValidate";
+import { ForgotPasswordResetView } from "./ForgotPasswordResetView";
 export class ForgotPasswordResetController {
   constructor(
     private forgotPasswordResetUseCase: ForgotPasswordResetUseCase,
-    private forgotPasswordResetValidate: ForgotPasswordResetValidate
+    private forgotPasswordResetValidate: ForgotPasswordResetValidate,
+    private forgotPasswordResetView: ForgotPasswordResetView
   ) {}
 
   async handle(req: CustomRequest, res: Response) {
@@ -26,8 +28,8 @@ export class ForgotPasswordResetController {
       user
     );
 
-    return res
-      .status(200)
-      .json({ message: "User updated with successfully", user: userUpdated });
+    const response = this.forgotPasswordResetView.render(userUpdated);
+
+    return res.status(200).json(response);
   }
 }

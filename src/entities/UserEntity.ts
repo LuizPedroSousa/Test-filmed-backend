@@ -1,5 +1,5 @@
+import { User } from ".prisma/client";
 import bcrypt from "bcrypt";
-
 export class UserEntity {
   public readonly id: string;
 
@@ -14,7 +14,7 @@ export class UserEntity {
     Object.assign(this, props);
 
     this.insertedAt = new Date();
-    
+
     this.id = this.user_id;
     this.password = bcrypt.hashSync(this.password, 8);
   }

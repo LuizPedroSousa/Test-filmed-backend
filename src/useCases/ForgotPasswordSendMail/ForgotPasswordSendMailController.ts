@@ -2,11 +2,13 @@ import { Request, Response } from "express";
 import { ForgotPasswordSendMailRequestDTO } from "./ForgotPasswordSendMailDTO";
 import { ForgotPasswordSendMailUseCase } from "./ForgotPasswordSendMailUseCase";
 import { ForgotPasswordSendMailValidate } from "./ForgotPasswordSendMailValidate";
+import { ForgotPasswordSendMailView } from "./ForgotPasswordSendMailView";
 
 export class ForgotPasswordSendMailController {
   constructor(
     private forgotPasswordUseCase: ForgotPasswordSendMailUseCase,
-    private forgotPasswordValidate: ForgotPasswordSendMailValidate
+    private forgotPasswordValidate: ForgotPasswordSendMailValidate,
+    private forgotPasswordSendMailView: ForgotPasswordSendMailView
   ) {}
 
   async handle(req: Request, res: Response): Promise<Response> {
@@ -20,9 +22,8 @@ export class ForgotPasswordSendMailController {
 
     await this.forgotPasswordUseCase.execute(user);
 
-    return res.status(200).json({
-      message: "Email sended to your account with successfully",
-      user: { email },
-    });
+    const response = this.forgotPasswordSendMailView.render(email);
+
+    return res.status(200).json(response);
   }
 }

@@ -4,6 +4,7 @@ import mongodbUsersRepository from "../../repositories/implementations/MongodbUs
 import { ForgotPasswordSendMailController } from "./ForgotPasswordSendMailController";
 import { ForgotPasswordSendMailUseCase } from "./ForgotPasswordSendMailUseCase";
 import { ForgotPasswordSendMailValidate } from "./ForgotPasswordSendMailValidate";
+import { ForgotPasswordSendMailView } from "./ForgotPasswordSendMailView";
 
 // repositories and providers
 const mailTrapMailProvider = new MailTrapMailProvider();
@@ -16,9 +17,12 @@ const forgotPasswordSendMailUseCase = new ForgotPasswordSendMailUseCase(
   jwtTokenRepository
 );
 
+const forgotPasswordSendMailView = new ForgotPasswordSendMailView();
+
 const forgotPasswordSendMailController = new ForgotPasswordSendMailController(
   forgotPasswordSendMailUseCase,
-  forgotPasswordSendMailValidate
+  forgotPasswordSendMailValidate,
+  forgotPasswordSendMailView
 );
 
 export { forgotPasswordSendMailValidate, forgotPasswordSendMailController };
