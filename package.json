@@ -11,7 +11,8 @@
     "start": "node dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=dev tsnd --clear --exit-child --ignore-watch node_modules --respawn --transpile-only src/server.ts",
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored"
+    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\""
   },
   "keywords": [],
   "author": "",

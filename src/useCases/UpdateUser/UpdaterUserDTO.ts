@@ -6,6 +6,6 @@ export interface UpdateUserRequestDTO {
 }
 
 export interface UpdateUserResponseDTO {
-  message: string
+  message: string;
   user: UserResponse;
 }
