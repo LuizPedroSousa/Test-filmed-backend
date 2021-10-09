@@ -2,14 +2,14 @@
   <img width="200" src=".github/images/logo.png" alt="logo"/>
   <br>
   <br>
-  <a href="https://github.com/LuizPedroSousa/Test-filmed-backend/issues">
-    <img src="https://img.shields.io/github/issues/LuizPedroSousa/Test-filmed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Issues"/>
+  <a href="https://github.com/LuizPedroSousa/Test-flimed-backend/issues">
+    <img src="https://img.shields.io/github/issues/LuizPedroSousa/Test-flimed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Issues"/>
   </a>
-  <a href="https://github.com/LuizPedroSousa/Test-filmed-backend/stargazers">
-    <img src="https://img.shields.io/github/stars/LuizPedroSousa/Test-filmed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Stars"/>
+  <a href="https://github.com/LuizPedroSousa/Test-flimed-backend/stargazers">
+    <img src="https://img.shields.io/github/stars/LuizPedroSousa/Test-flimed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Stars"/>
   </a>
-  <a href="https://github.com/LuizPedroSousa/Test-filmed-backend/network">
-    <img src="https://img.shields.io/github/forks/LuizPedroSousa/Test-filmed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Forks"/>
+  <a href="https://github.com/LuizPedroSousa/Test-flimed-backend/network">
+    <img src="https://img.shields.io/github/forks/LuizPedroSousa/Test-flimed-backend?color=0DBF97&style=for-the-badge" alt="GitHub Forks"/>
   </a>
 </h1>
 
@@ -59,10 +59,10 @@ este projeto não tem a rota principal, mas você pode testar em [/ping](https:/
 ```bash
 
 # Clone este repositório
-$ git clone https://github.com/LuizPedroSousa/Test-filmed-backend.git
+$ git clone https://github.com/LuizPedroSousa/Test-flimed-backend.git
 
 # Entre na pasta
-$ cd ./Test-filmed-backend
+$ cd ./Test-flimed-backend
 
 ```
 
