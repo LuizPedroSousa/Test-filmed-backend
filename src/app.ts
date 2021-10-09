@@ -3,10 +3,11 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import { config, DotenvConfigOutput } from "dotenv";
 import { createServer, Server as HTTPServer } from "http";
 import cors from "cors";
-import { router } from "./routes";
+import { routes } from "./routes";
 import createMongodbConnection from "./database/connection";
 import { checkErrors } from "./middlewares/errors";
 import logger from "./utils/logger";
+import { Routes } from "./interfaces/Routes";
 
 class App {
   public express: Express;
@@ -15,6 +16,7 @@ class App {
   public address: string;
   public server: HTTPServer;
   public mongodbConnection: Promise<void>;
+  public routes: Routes[];
 
   constructor() {
     this.address = process.env.ADDRESS || "http://localhost";
@@ -23,6 +25,7 @@ class App {
     this.server = createServer(this.express);
     this.dotenv = config();
     this.mongodbConnection = createMongodbConnection.connect();
+    this.routes = routes;
     this.initializeMiddlewares();
     this.initializeRoutes();
     this.initializeErrorHandling();
@@ -35,7 +38,9 @@ class App {
   }
 
   private initializeRoutes() {
-    this.express.use(router);
+    this.routes.forEach((route) => {
+      this.express.use("/", route.router);
+    });
   }
 
   private initializeMiddlewares() {

@@ -1,14 +1,6 @@
 import { Timestamp } from "@skyra/timestamp";
 import chalk from "chalk";
-
-type Log = (text: string, ...args: any) => void;
-
-interface LoggerActions {
-  info: Log;
-  warn: Log;
-  success: Log;
-  error: Log;
-}
+import { LoggerActions } from "../interfaces/LoggerActions";
 
 class Logger implements LoggerActions {
   info(text: string, ...args: any) {
