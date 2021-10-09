@@ -1,4 +1,4 @@
-import { CustomError } from "../../entities/CustomError";
+import { HttpException } from "../../exceptions/HttpException";
 import { User } from ".prisma/client";
 import { UserRepository } from "../../repositories/UserRepository";
 import { AuthenticateUserRequestDTO } from "./AuthenticateUserDTO";
@@ -22,7 +22,7 @@ export class AuthenticateUserUseCase {
     const userAlreadyExits = await this.userRepository.findByEmail(data.email);
 
     if (!userAlreadyExits) {
-      throw new CustomError({ message: "User or password are invalid" });
+      throw new HttpException({ message: "User or password are invalid" });
     }
 
     const passwordMatch = await this.hashRepository.compare(
@@ -31,7 +31,7 @@ export class AuthenticateUserUseCase {
     );
 
     if (!passwordMatch) {
-      throw new CustomError({ message: "User or password are invalid" });
+      throw new HttpException({ message: "User or password are invalid" });
     }
 
     const token = this.tokenRepository.sign(

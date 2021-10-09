@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { CustomError } from "../../entities/CustomError";
+import { Response } from "express";
+import { HttpException } from "../../exceptions/HttpException";
 import { CustomRequest } from "../../entities/CustomRequest";
 import { UpdateUserRequestDTO } from "./UpdaterUserDTO";
 import { UpdateUserUseCase } from "./UpdateUserUseCase";
@@ -20,7 +20,7 @@ export class UpdateUserController {
     } = req;
 
     if (!email && !name) {
-      throw new CustomError({ message: "Invalid data" });
+      throw new HttpException({ message: "Invalid data" });
     }
 
     const data: UpdateUserRequestDTO = {

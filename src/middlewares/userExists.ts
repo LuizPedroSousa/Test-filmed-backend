@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../entities/CustomError";
+import { HttpException } from "../exceptions/HttpException";
 import mongodbUsersRepository from "../repositories/implementations/MongodbUsersRepository";
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from ".prisma/client";
@@ -23,29 +23,29 @@ class UserExists {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      throw new CustomError({ message: "Unauthorized", status: 401 });
+      throw new HttpException({ message: "Unauthorized", status: 401 });
     }
     const parts = authorization.split(" ");
 
     const [scheme, token] = parts;
 
     if (!/^Bearer$/i.test(scheme)) {
-      throw new CustomError({ message: "Unauthorized" });
+      throw new HttpException({ message: "Unauthorized" });
     }
 
     if (!token) {
-      throw new CustomError({ message: "Unauthorized", status: 401 });
+      throw new HttpException({ message: "Unauthorized", status: 401 });
     }
 
     const { _id } = this.tokenRepository.verify(token);
     if (!_id) {
-      throw new CustomError({ message: "Unauthorized", status: 401 });
+      throw new HttpException({ message: "Unauthorized", status: 401 });
     }
 
     const user = await this.usersRepository.findById(_id);
 
     if (!user) {
-      throw new CustomError({ message: "Unauthorized", status: 401 });
+      throw new HttpException({ message: "Unauthorized", status: 401 });
     }
 
     req.user = user;

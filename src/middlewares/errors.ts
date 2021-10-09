@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import { ValidationError } from "yup";
-import { CustomError } from "../entities/CustomError";
+import { HttpException } from "../exceptions/HttpException";
 import logger from "../utils/logger";
 
 interface ValidationErrors {
@@ -9,7 +9,7 @@ interface ValidationErrors {
 }
 
 const checkErrors = (
-  error: CustomError,
+  error: HttpException,
   req: Request,
   res: Response,
   next: NextFunction
@@ -34,8 +34,8 @@ const checkErrors = (
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  // catch instances of CustomError()
-  if (error instanceof CustomError) {
+  // catch instances of HttpException()
+  if (error instanceof HttpException) {
     const errorResponse: any = {
       message: error?.message,
     };

@@ -1,16 +1,19 @@
 import * as Yup from "yup";
 
-interface CustomErrorProps {
+interface HttpExceptionProps {
   message: string;
   fields?: Yup.ValidationError;
   status?: number;
 }
 
-export class CustomError extends Error {
+export class HttpException extends Error {
   public fields?: Yup.ValidationError;
   public status?: number;
-  constructor({ message, fields, status }: CustomErrorProps) {
+  public message: string;
+  constructor({ message, fields, status }: HttpExceptionProps) {
     super(message);
+
+    this.message = message;
 
     if (status) {
       this.status = status;

@@ -1,4 +1,4 @@
-import { CustomError } from "../../entities/CustomError";
+import { HttpException } from "../../exceptions/HttpException";
 import { UserRepository } from "../../repositories/UserRepository";
 import { DeleteUserRequestParamsDTO } from "./DeleteUserDTO";
 
@@ -9,7 +9,7 @@ export class DeleteUserUseCase {
     const userAlreadyExits = await this.usersRepository.findById(data.user_id);
 
     if (!userAlreadyExits) {
-      throw new CustomError({ message: "User not found" });
+      throw new HttpException({ message: "User not found" });
     }
 
     await this.usersRepository.deleteUserById(data.user_id);

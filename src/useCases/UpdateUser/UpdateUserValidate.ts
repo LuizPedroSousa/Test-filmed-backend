@@ -1,6 +1,6 @@
 import { User } from ".prisma/client";
 import { SchemaOf, object, string } from "yup";
-import { CustomError } from "../../entities/CustomError";
+import { HttpException } from "../../exceptions/HttpException";
 import { UserRepository } from "../../repositories/UserRepository";
 import { UpdateUserRequestDTO } from "./UpdaterUserDTO";
 
@@ -20,7 +20,7 @@ export class UpdateUserValidate {
       );
 
       if (emailAlreadyExists) {
-        throw new CustomError({ message: "This email is unavailable" });
+        throw new HttpException({ message: "This email is unavailable" });
       }
     }
   }

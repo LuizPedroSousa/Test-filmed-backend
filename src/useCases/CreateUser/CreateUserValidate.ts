@@ -1,6 +1,6 @@
 import { CreateUserRequestDTO } from "./CreateUserDTO";
 import { string, SchemaOf, object } from "yup";
-import { CustomError } from "../../entities/CustomError";
+import { HttpException } from "../../exceptions/HttpException";
 import { UserRepository } from "../../repositories/UserRepository";
 
 export class CreateUserValidate {
@@ -22,7 +22,7 @@ export class CreateUserValidate {
     );
 
     if (userAlreadyExits) {
-      throw new CustomError({ message: "User already exists" });
+      throw new HttpException({ message: "User already exists" });
     }
   }
 }

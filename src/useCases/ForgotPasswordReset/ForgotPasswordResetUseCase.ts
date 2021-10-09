@@ -1,5 +1,5 @@
 import { User } from ".prisma/client";
-import { CustomError } from "../../entities/CustomError";
+import { HttpException } from "../../exceptions/HttpException";
 import { HashRepository } from "../../repositories/HashRepository";
 import { UserRepository } from "../../repositories/UserRepository";
 import { ForgotPasswordResetRequestDTO } from "./ForgotPasswordResetDTO";
@@ -23,7 +23,7 @@ export class ForgotPasswordResetUseCase {
     });
 
     if (!userUpdated) {
-      throw new CustomError({ message: "User not found" });
+      throw new HttpException({ message: "User not found" });
     }
 
     return userUpdated;
