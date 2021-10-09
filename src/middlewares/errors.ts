@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 import { ValidationError } from "yup";
 import { CustomError } from "../entities/CustomError";
+import logger from "../utils/logger";
 
 interface ValidationErrors {
   [key: string]: string[];
@@ -48,7 +49,7 @@ const checkErrors = (
     return res.status(statusCode).json(errorResponse);
   }
 
-  console.log(error);
+  logger.error("Falha interna", error);
   return res.status(500).json({ message: "Internal server error" });
 };
 

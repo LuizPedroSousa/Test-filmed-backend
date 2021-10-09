@@ -1,12 +1,13 @@
+import logger from "../utils/logger";
 import { client } from "./client";
 
 class CreateMongodbConnection {
   async connect() {
     try {
       await client.$connect();
-      console.log("Sucesso ao conectar com o MongoDB. 🔥");
+      logger.success("Sucesso ao conectar com o MongoDB. 🔥");
     } catch (err: any) {
-      console.error(`Erro ao tentar conectar no MongoDB 🚨: ${err}`);
+      logger.error(`Erro ao tentar conectar no MongoDB 🚨`, err);
     }
   }
 }

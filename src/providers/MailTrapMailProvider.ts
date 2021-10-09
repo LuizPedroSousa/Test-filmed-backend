@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
 import smtpTransportConfig from "../config/smtpTransportConfig";
+import logger from "../utils/logger";
 import { MailProvider, Message } from "./MailProvider";
 
 export class MailTrapMailProvider implements MailProvider {
@@ -31,7 +32,7 @@ export class MailTrapMailProvider implements MailProvider {
       await this.transporter.verify();
       isConnectable = true;
     } catch (error) {
-      console.log(error);
+      logger.error("Falha na conexão com mailer", error);
     }
 
     return isConnectable;
