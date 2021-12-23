@@ -1,13 +1,14 @@
 import "express-async-errors";
-import express, { Express, NextFunction, Request, Response } from "express";
+import "reflect-metadata";
+import "@shared/container";
+import express, { Express, Router } from "express";
 import { config, DotenvConfigOutput } from "dotenv";
 import { createServer, Server as HTTPServer } from "http";
 import cors from "cors";
-import { routes } from "./routes";
+import { routes } from "./shared/infra/http/routes";
 import createMongodbConnection from "./database/connection";
-import { checkErrors } from "./middlewares/errors";
+import { checkErrors } from "./shared/infra/http/middlewares/errors";
 import logger from "./utils/logger";
-import { Routes } from "./interfaces/Routes";
 
 class App {
   public express: Express;
@@ -16,7 +17,7 @@ class App {
   public address: string;
   public server: HTTPServer;
   public mongodbConnection: Promise<void>;
-  public routes: Routes[];
+  public routes: Router;
 
   constructor() {
     this.address = process.env.ADDRESS || "http://localhost";
@@ -38,9 +39,7 @@ class App {
   }
 
   private initializeRoutes() {
-    this.routes.forEach((route) => {
-      this.express.use("/", route.router);
-    });
+    this.express.use(routes);
   }
 
   private initializeMiddlewares() {
@@ -53,6 +52,5 @@ class App {
   }
 }
 
-const app = new App();
 
-export default app;
+export default new App();
