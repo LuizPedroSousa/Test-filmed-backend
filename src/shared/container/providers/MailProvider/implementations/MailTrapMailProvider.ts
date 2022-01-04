@@ -1,37 +1,52 @@
-import nodemailer from "nodemailer";
-import Mail from "nodemailer/lib/mailer";
-import { injectable } from "tsyringe";
-import smtpTransportConfig from "../../../../../config/smtpTransportConfig";
+import { mailConfig } from "@config/mail";
+import nodemailer, { Transporter } from "nodemailer";
+import { inject, injectable } from "tsyringe";
 import logger from "../../../../../utils/logger";
-import { IMailProvider, Message } from "../models/IMailProvider";
+import { IMailTemplateProvider } from "../../MailTemplateProvider/models/IMailTemplateProvider";
+import { ISendMailDTO } from "../dtos/ISendMailDTO";
+import { IMailProvider } from "../models/IMailProvider";
 
 @injectable()
-export class MailTrapMailProvider implements IMailProvider {
-  private transporter: Mail;
-  constructor() {
-    this.transporter = nodemailer.createTransport(smtpTransportConfig);
+class MailTrapProvider implements IMailProvider {
+  private client: Transporter;
+
+  constructor(
+    @inject("MailTemplateProvider")
+    private mailTemplateProvider: IMailTemplateProvider
+  ) {
+    this.client = nodemailer.createTransport({
+      host: "smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: mailConfig.credentials.mailtrap.user,
+        pass: mailConfig.credentials.mailtrap.password,
+      },
+    });
   }
 
-  async sendMail(message: Message): Promise<void> {
-    await this.transporter.sendMail({
-      to: {
-        name: message.to.name,
-        address: message.to.email,
-      },
+  async sendMail({ to, subject, templateData }: ISendMailDTO): Promise<void> {
+    const { name, email } = mailConfig.defaults.from;
+    const message = await this.client.sendMail({
       from: {
-        name: message.from.name,
-        address: message.from.email,
+        name,
+        address: email,
       },
-      subject: message.subject,
-      html: message.body,
+      to: {
+        name: to.name,
+        address: to.email,
+      },
+      subject,
+      html: await this.mailTemplateProvider.parse(templateData),
     });
+
+    logger.success("Message sent: %s", message.messageId);
   }
 
   async verifyConnection() {
     let isConnectable = false;
 
     try {
-      await this.transporter.verify();
+      await this.client.verify();
       isConnectable = true;
     } catch (error) {
       logger.error("Falha na conexão com mailer", error);
@@ -40,3 +55,5 @@ export class MailTrapMailProvider implements IMailProvider {
     return isConnectable;
   }
 }
+
+export { MailTrapProvider };

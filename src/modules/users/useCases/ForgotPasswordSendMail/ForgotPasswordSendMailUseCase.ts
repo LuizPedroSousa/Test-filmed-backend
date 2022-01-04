@@ -2,6 +2,7 @@ import { User } from ".prisma/client";
 import { IMailProvider } from "@/shared/container/providers/MailProvider/models/IMailProvider";
 import { ITokenProvider } from "@/shared/container/providers/TokenProvider/models/ITokenProvider";
 import { inject, injectable } from "tsyringe";
+import path from "path";
 
 @injectable()
 export class ForgotPasswordSendMailUseCase {
@@ -21,22 +22,28 @@ export class ForgotPasswordSendMailUseCase {
       throw new Error("Invalid mail provider connection");
     }
 
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "views",
+      "forgot_password.hbs"
+    );
+
     // pass a direct token because this app does not have a front endpoint to redeem password
     await this.mailProvider.sendMail({
       to: {
         name: data.name,
         email: data.email,
       },
-      from: {
-        name: "Equipe Filmed",
-        email: "equipe@filmed.com",
-      },
       subject: "Nova senha",
-      body: `
-          <h2>Olá ${data.name}, parece que você esqueceu sua senha.</h2>
-          <p>anda esquecido ultimamente? sem problemas, utilize este token para atualizar sua senha:</p>
-          <p>${token}</p>
-          `,
+      templateData: {
+        file: forgotPasswordTemplate,
+        variables: {
+          name: data.name,
+          token,
+        },
+      },
     });
   }
 }
